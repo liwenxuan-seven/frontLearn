@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>封装</title>
+    <script src="./Promise.js"></script>
+</head>
+<body>
+    <script>
+        const n = new Promise((resolve,reject)=>{
+            resolve('yes')
+            reject('no')
+            // throw "没有实习了！"
+        })
+        console.log(n)
+           /* n.then(value => {
+                console.log(value)
+            },reason => {
+                console.log(reason)
+            })*/
+    </script>
+</body>
+</html>
