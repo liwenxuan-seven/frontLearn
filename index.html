@@ -9,22 +9,30 @@
     <script>
         const n = new Promise((resolve,reject)=>{
             setTimeout(()=>{
-                reject('no')
+                // reject('no')
                 resolve('yes')
                 // throw "没有实习了！"
             },1000)
         })
-        console.log(n)
-        n.then(value => {
+        // console.log(n)
+        const result = n.then(value => {
             console.log(value)
+            return new Promise((resolve,reject)=>{
+                throw '在找实习'
+                resolve('小咩')
+            })
         },reason => {
             console.log(reason)
+            return new Promise((resolve,reject)=>{
+                reject('大咩')
+            })
         })
-        n.then(value => {
+        console.log(result)
+     /*   n.then(value => {
             alert(value)
         },reason => {
             alert(reason)
-        })
+        })*/
     </script>
 </body>
 </html>
