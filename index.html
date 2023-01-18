@@ -8,16 +8,23 @@
 <body>
     <script>
         const n = new Promise((resolve,reject)=>{
-            resolve('yes')
-            reject('no')
-            // throw "没有实习了！"
+            setTimeout(()=>{
+                reject('no')
+                resolve('yes')
+                // throw "没有实习了！"
+            },1000)
         })
         console.log(n)
-           /* n.then(value => {
-                console.log(value)
-            },reason => {
-                console.log(reason)
-            })*/
+        n.then(value => {
+            console.log(value)
+        },reason => {
+            console.log(reason)
+        })
+        n.then(value => {
+            alert(value)
+        },reason => {
+            alert(reason)
+        })
     </script>
 </body>
 </html>
