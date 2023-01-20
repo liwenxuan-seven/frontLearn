@@ -29,11 +29,12 @@ function Promise(executor) {
 }
 //添加一个then方法
 Promise.prototype.then=function (onResolved,onRejected){
+    const self = this
+
     return new Promise((resolve,reject) =>{
-        try {
-            const self = this
-            if (this.PromiseState === 'resolved'){
-                let res = onResolved(this.PromiseResult)
+        function callback(type) {
+            try{
+                let res = type(self.PromiseResult)
                 if(res instanceof Promise){
                     res.then(value => {
                         resolve(value)
@@ -43,54 +44,25 @@ Promise.prototype.then=function (onResolved,onRejected){
                 }else{
                     resolve(res)
                 }
+            }catch(e){
+                reject(e)
+            }
+        }
+        try {
+            if (this.PromiseState === 'resolved'){
+                callback(onResolved)
             }
             if (this.PromiseState === 'rejected') {
-                let res=onRejected(this.PromiseResult)
-                if(res instanceof Promise){
-                    res.then(value => {
-                        resolve(value)
-                    },reason=>{
-                        reject(reason)
-                    })
-                }else{
-                    reject(res)
-                }
+                callback(onRejected)
             }
             if (this.PromiseState === 'pending') {
                 this.callbacks.push({
                     onResolved:function () {
-                        try {
-                            let result =onResolved(self.PromiseResult)
-                            if (result instanceof Promise){
-                                result.then(v =>{
-                                    resolve(v)
-                                },r=>{
-                                    reject(r)
-                                })
-                            }else {
-                                resolve(result)
-                            }
-                        }catch (e)
-                        {
-                            reject(e)
-                        }
+                        callback(onResolved)
 
                     },
                     onRejected:function () {
-                        try {
-                            let result= onRejected(self.PromiseResult)
-                            if (result instanceof Promise){
-                                result.then(v =>{
-                                    resolve(v)
-                                },r=>{
-                                    reject(r)
-                                })
-                            }else {
-                                resolve(result)
-                            }
-                        }catch (e){
-                            reject(e)
-                        }
+                        callback(onRejected)
                     }
                 })
             }
