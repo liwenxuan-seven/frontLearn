@@ -7,6 +7,7 @@
 </head>
 <body>
     <script>
+        //实例化对象
         const n = new Promise((resolve,reject)=>{
             setTimeout(()=>{
                 // reject('no')
@@ -15,7 +16,7 @@
             },1000)
         })
         // console.log(n)
-        const result = n.then(value => {
+       /* const result = n.then(value => {
             console.log(value)
             return new Promise((resolve,reject)=>{
                 throw '在找实习'
@@ -27,12 +28,44 @@
                 reject('大咩')
             })
         })
-        console.log(result)
-     /*   n.then(value => {
+        console.log(result)*/
+     /*检验then并发
+     n.then(value => {
             alert(value)
         },reason => {
             alert(reason)
         })*/
+        /*检验catch异常穿透
+        let res = n.then().then(value => {
+            console.log(222)
+        }).then(value => {
+            console.log(333)
+        }).catch(reason => {
+                console.warn(reason)
+            }
+        )
+        console.log(res)*/
+        /*直接调用
+        let res =Promise.resolve('yes')
+        let res2=Promise.reject('error')
+        console.log(res)
+        console.log(res2)*/
+        //all函数
+        let n1 = new Promise((resolve,reject) =>{
+            resolve('xin')
+            console.log(111)
+        })
+        let n2 = Promise.resolve('yes')
+        let n3 =Promise.reject('error')
+        // let n3 =Promise.resolve('true')
+        // then的异步
+        n1.then(value => {
+            console.log(222)
+        })
+        let allres = Promise.all([n1,n2,n3])
+        // console.log(allres)
+        console.log(333)
+
 
     </script>
 </body>
